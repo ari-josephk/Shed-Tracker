@@ -8,6 +8,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve('index.html'))
 })
 
+app.use(express.static(path.resolve('public')))
+
+app.get('/csvData', (req, res) => {
+	res.sendFile(path.resolve('results.csv'))
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
