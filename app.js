@@ -4,8 +4,21 @@ const fs = require('fs')
 const path = require('path')
 const csvParser = require('csv-parser')
 const cron = require('node-cron')
+const pythonShell = require('python-shell')
+const childProcess = require('child_process')
 
 const port = 3000
+
+function compileData() {
+	const pythonProcess = childProcess.spawn('python',[path.resolve('compile_data.py')])
+	pythonProcess
+			.on('close', code => console.log(`child process exited with code ${code}`))
+			.on('error', err => console.log('Error running child'))
+}
+ 
+childProcess.exec(`pip install -r {}`, path.resolve('py-requirements.txt'))
+compileData()
+cron.schedule('0 9 * * *', compileData)
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve('index.html'))

@@ -2,7 +2,7 @@
   "name": "shed-tracker",
   "version": "1.0.0",
   "description": "Tracking Get Sheds Down",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
@@ -10,10 +10,13 @@
   "author": "Ari Khaytser",
   "license": "ISC",
   "dependencies": {
+    "child_process": "^1.0.2",
+    "child-process": "^1.0.2",
     "csv": "^6.3.3",
     "csv-parser": "^3.0.0",
     "express": "^4.18.2",
     "node-cron": "^3.0.2",
-    "parser": "^0.1.4"
+    "parser": "^0.1.4",
+    "python-shell": "^5.0.0"
   }
 }
