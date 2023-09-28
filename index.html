@@ -7,15 +7,41 @@
 	<title>Get Sheds Down Tracker</title>
 
 	<link rel="stylesheet" href="./bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 	<script src="./bootstrap.min.js"></script>
+	<script src="./load_data.js"></script>
+	
 </head>
 
 <body>
 	<div class="container">
 		<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom align-items-bottom">
-			<h2 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">Heading</h2>
-			<div class="align-items-bottom"><a href="./csvData" class="align-text-top align-bottom">Download CSV Data</a></div>
+			<h2 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+				Heading</h2>
+			<div class="align-items-bottom"><a href="./csvData" class="align-text-top align-bottom">Download CSV
+					Data</a></div>
 		</header>
+	</div>
+	<div class="container">
+		<p>Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc
+			Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text
+			Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc
+			Text Desc Text Desc Text </p>
+	</div>
+	<div class="container">
+		<div class="row d-flex justify-content-center">
+			<div class="col d-flex justify-content-center"><canvas id="shed-chart"></canvas></div>
+			<div class="col d-flex justify-content-center"><canvas id="borough-shed-chart"></canvas></div>
+		</div>
+		
+	</div>
+	<div class="container">
+		<div class="row">
+			
+			<div class="col"><canvas id="feet-chart"></canvas></div>
+			<div class="col"><canvas id="age-chart"></canvas></div>
+		</div>
 	</div>
 </body>
 
