@@ -10,7 +10,7 @@ const childProcess = require('child_process')
 const port = 3000
 
 function compileData() {
-	const pythonProcess = childProcess.spawn('python',[path.resolve('compile_data.py')])
+	const pythonProcess = childProcess.spawn('py',[path.resolve('compile_data.py')])
 	pythonProcess
 			.on('close', code => console.log(`child process exited with code ${code}`))
 			.on('error', err => console.log('Error running child'))
