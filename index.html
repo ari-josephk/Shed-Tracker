@@ -8,37 +8,60 @@
 
 	<link rel="stylesheet" href="./bootstrap.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 	<script src="./bootstrap.min.js"></script>
 	<script src="./load_data.js"></script>
-	
+
 </head>
 
 <body>
 	<div class="container">
 		<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom align-items-bottom">
 			<h2 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-				Heading</h2>
+				Tracking Get Sheds Down</h2>
 			<div class="align-items-bottom"><a href="./csvData" class="align-text-top align-bottom">Download CSV
 					Data</a></div>
 		</header>
 	</div>
 	<div class="container">
-		<p>Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc
-			Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text
-			Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc Text Desc
-			Text Desc Text Desc Text </p>
+		<p>In Fall 2023, Mayor Eric Adams opened the "Get Sheds Down" initiative to improve rules governing sidewalk
+			construction sheds, and reduce the number of scaffoldings on public sidewalks in New York City.</p>
 	</div>
+
+	<div class="center-block d-flex justify-content-center align-items-center">
+		<img src="./banner.jpg" alt="Eric Adams unveils 'Get Sheds Down'">
+	</div>
+
+	<div class="container">
+		<p>The initiative includes multiple strategies to quickly take down construction sheds, including increased
+			penalties for unrepaired facade violations and extended shed permins, expanding the use of safety netting,
+			and
+			changes to facade inspection protocols.
+		</p>
+
+		<ul>
+			<li>Since the start of the program, a total of <b id="shed-reduction">[Not Calulated]</b> sheds permits have
+				been removed, a reduction of <b id="shed-reduction-percent">[Not Calulated]</b> </li>
+			<li>Since the start of the program, a total of <b id="feet-reduction">[Not Calulated]</b> linear feet of
+				covered public space has been cleared, a reduction of <b id="feet-reduction-percent">[Not Calulated]</b>
+			</li>
+		</ul>
+
+
+	</div>
+
+
 	<div class="container">
 		<div class="row d-flex justify-content-center">
 			<div class="col d-flex justify-content-center"><canvas id="shed-chart"></canvas></div>
 			<div class="col d-flex justify-content-center"><canvas id="borough-shed-chart"></canvas></div>
 		</div>
-		
+
 	</div>
 	<div class="container">
 		<div class="row">
-			
+
 			<div class="col"><canvas id="feet-chart"></canvas></div>
 			<div class="col"><canvas id="age-chart"></canvas></div>
 		</div>

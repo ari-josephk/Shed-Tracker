@@ -20,7 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 						toolTipFormat: 'MM DD YYYY'
 					},
 					ticks: {
-						source: 'data'
+						source: 'data',
+						display: false
+					},
+					grid: {
+						drawTicks: false
 					}
 				},
 			},
@@ -28,12 +32,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 				title: {
 					display: true,
 					text: title
+				},
+				decimation: {
+					enabled: true,
+					threshold: 10
 				}
 			}
 		}
 	}
 
+
+
 	const sheds = dates.map((date, i) => { return { x: date, y: data['Total Count'][i] } })
+	const age = dates.map((date, i) => { return { x: date, y: data['Average Age'][i] } })
+	const feet = dates.map((date, i) => { return { x: date, y: data['Total Feet'][i] } })
 
 	const manhattan = dates.map((date, i) => { return { x: date, y: data['Manhattan'][i] } })
 	const brooklyn = dates.map((date, i) => { return { x: date, y: data['Brooklyn'][i] } })
@@ -41,6 +53,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 	const bronx = dates.map((date, i) => { return { x: date, y: data['Bronx'][i] } })
 	const statenIsland = dates.map((date, i) => { return { x: date, y: data['Staten Island'][i] } })
 
+
+	const shedsReduction = 9000 - parseInt(data['Total Count'][data['Total Count'].length - 1])
+	const shedsReductionPercent = shedsReduction / 9000
+	const feetReduction = 2100000 - parseInt(data['Total Feet'][data['Total Feet'].length - 1])
+	const feetReductionPercent = feetReduction / 2100000
+
+	document.getElementById('shed-reduction').innerText = shedsReduction
+	document.getElementById('shed-reduction-percent').innerHTML = (shedsReductionPercent * 100).toPrecision(2).toString() + '%'
+	document.getElementById('feet-reduction').innerText = feetReduction
+	document.getElementById('feet-reduction-percent').innerHTML = (feetReductionPercent * 100).toPrecision(2).toString() + '%'
 
 	const ctxSheds = document.getElementById('shed-chart')
 	const shedsChart = new Chart(ctxSheds, {
@@ -55,6 +77,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 		options: getOptions('Total Permitted Sheds')
 	})
 
+	const ctxAge = document.getElementById('age-chart')
+	const ageChart = new Chart(ctxAge, {
+		type: 'line',
+		data: {
+			datasets: [{
+				label: 'Average Age',
+				data: age
+			}],
+
+		},
+		options: getOptions('Average Permit Age (Days)')
+	})
+
+	const ctxFeet = document.getElementById('feet-chart')
+	const feetChart = new Chart(ctxFeet, {
+		type: 'line',
+		data: {
+			datasets: [{
+				label: 'Total Feet',
+				data: feet
+			}],
+
+		},
+		options: getOptions('Total Linear Feet of Sheds')
+	})
+
 	const ctxBoroughSheds = document.getElementById('borough-shed-chart')
 	const boroughShedsChart = new Chart(ctxBoroughSheds, {
 		type: 'line',
@@ -64,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 				data: manhattan
 			},
 			{
-				label: 'Brooklym',
+				label: 'Brooklyn',
 				data: brooklyn
 			},
 			{
@@ -79,7 +127,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 				label: 'Staten Island',
 				data: statenIsland
 			}],
-
 		},
 		options: getOptions('Total Sheds per Borough')
 	})
