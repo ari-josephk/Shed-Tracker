@@ -26,6 +26,8 @@ app.get('/', (req, res) => {
 
 app.use(express.static(path.resolve('public')))
 
+app.use('/public',express.static(path.resolve('public')))
+
 app.get('/csvData', (req, res) => {
 	res.sendFile(path.resolve('results.csv'))
 })
