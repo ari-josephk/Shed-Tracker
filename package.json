@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "start-static": "py compile_data.py && node create-data-static.js"
+    "start-static": "node create-data-static.js"
   },
   "author": "Ari Khaytser",
   "license": "ISC",
