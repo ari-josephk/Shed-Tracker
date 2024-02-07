@@ -20,6 +20,14 @@ childProcess.exec(`pip install -r {}`, path.resolve('py-requirements.txt'))
 compileData()
 cron.schedule('0 9 * * *', compileData)
 
+data = {}
+
+fs.createReadStream(path.resolve('./results.csv'))
+		.pipe(csvParser())
+		.on('headers', headers => headers.forEach(header => data[header] = new Array()))
+		.on('data', row => Object.keys(row).forEach(element => data[element].push(row[element])))
+		.on('end', () => fs.writeFileSync(path.resolve('./public/data.json'), JSON.stringify(data), 'utf8'));
+
 app.get('/', (req, res) => {
   res.sendFile(path.resolve('index.html'))
 })
@@ -35,7 +43,7 @@ app.get('/csvData', (req, res) => {
 app.get('/data', (req, res) => {
 	data = {}
 
-	fs.createReadStream('./results.csv')
+	fs.createReadStream(path.resolve('./results.csv'))
 			.pipe(csvParser())
 			.on('headers', headers => headers.forEach(header => data[header] = new Array()))
 			.on('data', row => Object.keys(row).forEach(element => data[element].push(row[element])))

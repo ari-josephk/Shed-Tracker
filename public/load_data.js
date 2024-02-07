@@ -1,5 +1,5 @@
 async function loadData() {
-	const response = await fetch('./data')
+	const response = await fetch('./public/data.json')
 	const data = await response.json()
 
 	return data
