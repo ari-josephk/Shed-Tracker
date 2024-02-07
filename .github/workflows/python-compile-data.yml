@@ -27,4 +27,7 @@ jobs:
     - name: Compile Data  
       run: python compile_data.py
     - name: Update Repo
-      run: git add results.csv && git commit -m "Daily data update" && git push
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add results.csv && git commit -m "Daily data update" && git push
