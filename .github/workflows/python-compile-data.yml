@@ -4,10 +4,6 @@
 name: Python Data Compiler
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   schedule:
     - cron: '0 8 * * *'
 
@@ -29,3 +25,5 @@ jobs:
       run: pip install -r py-requirements.txt
     - name: Compile Data  
       run: python compile_data.py
+    - name: Update Repo
+      run: git add results.csv && git commit -m "Daily data update" && git push
