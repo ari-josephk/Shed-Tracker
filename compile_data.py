@@ -2,6 +2,7 @@ import csv
 import requests
 import datetime
 
+OUTLIER_PERCENT_THRESHOLD = 0.05
 CSV_URL = 'https://nycdob.github.io/ActiveShedPermits/data/Active_Sheds2.csv'
 
 with requests.Session() as s:
@@ -52,7 +53,10 @@ result = [current_date, total_count, total_count_borough['manhattan'], total_cou
 if last_line and last_line[0] == current_date:
 	print(last_line)
 else:
-	print(num_lines)
-	if num_lines == 0:
-		w.writerow(result_headers)
-	w.writerow(result)
+	if last_line and abs(int(last_line[1]) - total_count) / total_count > OUTLIER_PERCENT_THRESHOLD:
+		print("Not recording data due to outlier data recieved")
+	else:
+		print(num_lines)
+		if num_lines == 0:
+			w.writerow(result_headers)
+		w.writerow(result)
