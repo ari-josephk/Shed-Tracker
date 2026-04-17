@@ -1,71 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Get Sheds Down Tracker</title>
 
-	<link rel="stylesheet" href="./public/bootstrap.min.css">
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+	<link href="./public/bootstrap.min.css" rel="stylesheet">
 	<script src="./public/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 	<script src="./public/load_data.js"></script>
 
+	<style>
+		body {
+			font-family: 'Inter', sans-serif;
+			background-color: #f5f7fa;
+			color: #333;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+		.stat-card {
+			border: none;
+			border-radius: 14px;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			padding: 1.5rem 1rem;
+		}
+
+		.stat-card:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+		}
+
+		.stat-card .stat-value {
+			font-size: 2.4rem;
+			font-weight: 700;
+			color: #2e7d32;
+			line-height: 1.1;
+			margin: 0.4rem 0;
+		}
+
+		.stat-card .stat-label {
+			font-size: 0.82rem;
+			font-weight: 500;
+			color: #8c959f;
+			text-transform: uppercase;
+			letter-spacing: 0.6px;
+		}
+
+		.chart-card {
+			border: none;
+			border-radius: 14px;
+			background: #fff;
+		}
+
+		.chart-card .card-header {
+			background: transparent;
+			border-bottom: 1px solid #e8ecf0;
+			font-weight: 600;
+			font-size: 0.95rem;
+			color: #2e7d32;
+			padding: 0.9rem 1.25rem;
+		}
+
+		.chart-card .card-body {
+			padding: 1rem 1.25rem 0.75rem;
+		}
+
+		.banner-img {
+			max-width: 100%;
+			max-height: 280px;
+			object-fit: cover;
+			border-radius: 14px;
+		}
+
+		.page-header {
+			background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #388e3c 100%);
+			color: white;
+			border-radius: 0 0 20px 20px;
+			padding: 2.5rem 0;
+		}
+
+		.page-header h1 {
+			font-weight: 700;
+			font-size: 2rem;
+			letter-spacing: -0.5px;
+		}
+
+		.page-header .header-subtitle {
+			color: rgba(255, 255, 255, 0.75);
+			font-size: 0.95rem;
+			font-weight: 400;
+			margin-top: 0.3rem;
+		}
+
+		.page-header a {
+			color: rgba(255, 255, 255, 0.85);
+			font-weight: 500;
+			border-color: rgba(255, 255, 255, 0.4);
+		}
+
+		.page-header a:hover {
+			color: #fff;
+			border-color: #fff;
+		}
+
+		.findings-card {
+			border: none;
+			border-radius: 14px;
+			background: #fff;
+			border-left: 4px solid #2e7d32;
+		}
+
+		.findings-card ul {
+			padding-left: 1.1rem;
+		}
+
+		.findings-card li {
+			margin-bottom: 0.35rem;
+			line-height: 1.6;
+			color: #495057;
+		}
+
+		.site-footer {
+			color: #8c959f;
+			font-size: 0.82rem;
+		}
+
+		.lead {
+			font-weight: 400;
+			color: #495057;
+		}
+
+		p {
+			color: #495057;
+			line-height: 1.7;
+		}
+	</style>
 </head>
 
 <body>
-	<div class="container">
-		<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom align-items-bottom">
-			<h2 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-				Tracking Get Sheds Down</h2>
-			<div class="align-items-bottom"><a href="./public/data.json" class="align-text-top align-bottom">Download CSV
-					Data</a></div>
-		</header>
-	</div>
-	<div class="container">
-		<p>In Fall 2023, Mayor Eric Adams opened the "Get Sheds Down" initiative to improve rules governing sidewalk
-			construction sheds, and reduce the number of scaffoldings on public sidewalks in New York City.</p>
-	</div>
-
-	<div class="center-block d-flex justify-content-center align-items-center">
-		<img src="./public/banner.jpg" alt="Eric Adams unveils 'Get Sheds Down'">
-	</div>
-
-	<div class="container">
-		<p>The initiative includes multiple strategies to quickly take down construction sheds, including increased
-			penalties for unrepaired facade violations and extended shed permins, expanding the use of safety netting,
-			and
-			changes to facade inspection protocols.
-		</p>
-
-		<ul>
-			<li>Since the start of the program, a total of <b id="shed-reduction">[Not Calulated]</b> sheds permits have
-				been removed, a reduction of <b id="shed-reduction-percent">[Not Calulated]</b> </li>
-			<li>Since the start of the program, a total of <b id="feet-reduction">[Not Calulated]</b> linear feet of
-				covered public space has been cleared, a reduction of <b id="feet-reduction-percent">[Not Calulated]</b>
-			</li>
-		</ul>
-
-
-	</div>
-
-
-	<div class="container">
-		<div class="row d-flex justify-content-center">
-			<div class="col d-flex justify-content-center"><canvas id="shed-chart"></canvas></div>
-			<div class="col d-flex justify-content-center"><canvas id="borough-shed-chart"></canvas></div>
-		</div>
-
-	</div>
-	<div class="container">
-		<div class="row">
-
-			<div class="col"><canvas id="feet-chart"></canvas></div>
-			<div class="col"><canvas id="age-chart"></canvas></div>
+	<!-- Header -->
+	<div class="page-header mb-4">
+		<div class="container text-center">
+			<h1 class="mb-1">Tracking Get Sheds Down</h1>
+			<div class="header-subtitle">NYC sidewalk shed removal progress &middot; updated daily</div>
+			<a href="./public/data.json" class="btn btn-outline-light btn-sm mt-3">Download Data</a>
 		</div>
 	</div>
+
+	<div class="container">
+		<!-- Description -->
+		<div class="text-center mb-4">
+			<img src="./public/banner.jpg" alt="Eric Adams unveils 'Get Sheds Down'" class="banner-img shadow-sm mb-3">
+			<p class="lead mx-auto" style="max-width: 720px;">In Fall 2023, Mayor Eric Adams opened the "Get Sheds Down" initiative to improve rules
+				governing sidewalk
+				construction sheds, and reduce the number of scaffoldings on public sidewalks in New York City.</p>
+			<p class="mx-auto" style="max-width: 720px;">The initiative includes multiple strategies to quickly take down construction sheds, including increased
+				penalties for unrepaired facade violations and extended shed permins, expanding the use of safety netting,
+				and
+				changes to facade inspection protocols.</p>
+		</div>
+
+		<!-- Stat Cards -->
+		<div class="row g-3 mb-4">
+			<div class="col-6 col-md-3">
+				<div class="card stat-card shadow-sm text-center">
+					<div class="stat-label">Sheds Removed</div>
+					<div class="stat-value" id="shed-reduction">&mdash;</div>
+					<div class="stat-label">permits</div>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="card stat-card shadow-sm text-center">
+					<div class="stat-label">Shed Reduction</div>
+					<div class="stat-value" id="shed-reduction-percent">&mdash;</div>
+					<div class="stat-label">from 9,000 baseline</div>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="card stat-card shadow-sm text-center">
+					<div class="stat-label">Feet Cleared</div>
+					<div class="stat-value" id="feet-reduction">&mdash;</div>
+					<div class="stat-label">linear feet</div>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="card stat-card shadow-sm text-center">
+					<div class="stat-label">Feet Reduction</div>
+					<div class="stat-value" id="feet-reduction-percent">&mdash;</div>
+					<div class="stat-label">from 2.1M ft baseline</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Key Findings -->
+		<div class="card shadow-sm mb-4 findings-card">
+			<div class="card-body">
+				<ul class="mb-0">
+					<li>Since the start of the program, a total of <b id="shed-reduction-text">[Not Calulated]</b> sheds permits
+						have been removed, a reduction of <b id="shed-reduction-percent-text">[Not Calulated]</b> </li>
+					<li>Since the start of the program, a total of <b id="feet-reduction-text">[Not Calulated]</b> linear feet of
+						covered public space has been cleared, a reduction of <b id="feet-reduction-percent-text">[Not Calulated]</b>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Row 1: Borough Donut + Cumulative Progress -->
+		<div class="row g-3 mb-4">
+			<div class="col-md-4">
+				<div class="card chart-card shadow-sm h-100">
+					<div class="card-header">Current Borough Distribution</div>
+					<div class="card-body"><div id="borough-donut-chart"></div></div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="card chart-card shadow-sm h-100">
+					<div class="card-header">Cumulative Sheds Removed (Progress)</div>
+					<div class="card-body"><div id="progress-chart"></div></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Row 2: Total Sheds + Borough Over Time -->
+		<div class="row g-3 mb-4">
+			<div class="col-md-6">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Total Permitted Sheds</div>
+					<div class="card-body"><div id="shed-chart"></div></div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Total Sheds per Borough</div>
+					<div class="card-body"><div id="borough-shed-chart"></div></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Row 3: Linear Feet + Average Age -->
+		<div class="row g-3 mb-4">
+			<div class="col-md-6">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Total Linear Feet of Sheds</div>
+					<div class="card-body"><div id="feet-chart"></div></div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Average Permit Age (Days)</div>
+					<div class="card-body"><div id="age-chart"></div></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Row 4: Daily Net Change + Monthly Aggregated -->
+		<div class="row g-3 mb-4">
+			<div class="col-md-6">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Daily Net Shed Change</div>
+					<div class="card-body"><div id="daily-change-chart"></div></div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Monthly Net Shed Change</div>
+					<div class="card-body"><div id="monthly-change-chart"></div></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Row 5: Year-over-Year Comparison -->
+		<div class="row g-3 mb-5">
+			<div class="col-12">
+				<div class="card chart-card shadow-sm">
+					<div class="card-header">Year-over-Year Comparison</div>
+					<div class="card-body"><div id="yoy-chart"></div></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<footer class="site-footer text-center py-4 mt-3">
+		<div class="container">
+			<p class="mb-0">Data sourced from NYC Open Data &middot; Updated daily</p>
+		</div>
+	</footer>
 </body>
 
 </html>
